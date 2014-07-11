@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'users/new'
+
+  match '/signup', :to => 'users#new', :via => [:get, :post]
 
   match '/contact', :to => 'pages#contact', :via => [:get, :post]
   match '/about', :to => 'pages#about', :via => [:get, :post]
