@@ -40,6 +40,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 group :development do
 	gem 'rspec-rails', '~> 2.0'
+	gem 'annotate', ">=2.6.0"
 end
 
 group :test do
