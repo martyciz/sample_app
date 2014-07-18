@@ -58,6 +58,10 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
+
+  def test_sign_in(user)
+    controller.sign_in(user)
+  end
 end
 # Webrat configuration
 Webrat.configure do |config|
