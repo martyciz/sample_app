@@ -59,6 +59,9 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
 
+  
+  config.include Rails.application.routes.url_helpers
+
   def test_sign_in(user)
     controller.sign_in(user)
   end

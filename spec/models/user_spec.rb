@@ -72,7 +72,6 @@ describe User do
   end
 
   describe "password validations" do
-
     before(:each) do
       @user = User.create!(@attr)
     end

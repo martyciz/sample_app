@@ -50,6 +50,17 @@ describe UsersController do
 			response.should have_selector("a",	:href => "/users?page=2",
 												:content => "Next")
 		end
+
+		it "should not have delete links for non-admins" do
+			get :index
+			response.should_not have_selector("a", :content => "delete")
+		end
+
+		it "should have delete links for admins" do
+			@user.toggle!(:admin)
+			get :index
+			response.should have_selector("a", :content => "delete")
+		end
 	end
 
 	describe "POST 'create'" do
@@ -103,7 +114,18 @@ describe UsersController do
 				post :create, :user => @attr
 				response.should render_template('new')
 			end
+		end
 
+		describe "if user is already signed-in" do
+			before(:each) do
+				@user = FactoryGirl.create(:user)
+				test_sign_in(@user)
+			end
+			
+			it "should redirect already signed-in user" do
+				post :create, :user => @attr
+				response.should redirect_to(root_path)
+			end
 		end
 	end
 
@@ -153,17 +175,32 @@ describe UsersController do
 			get :new
 			response.should have_selector("input[name='user[name]'][type='text']")
 		end
+		
 		it "should have an email field" do
 			get :new
 			response.should have_selector("input[name='user[email]'][type='text']")
 		end
+		
 		it "should have a password field" do
 			get :new
 			response.should have_selector("input[name='user[password]'][type='password']")
 		end
+		
 		it "should have a password confirmation field" do
 			get :new
 			response.should have_selector("input[name='user[password_confirmation]'][type='password']")
+		end
+
+		describe "if user is already signed-in" do
+			before(:each) do
+				@user = FactoryGirl.create(:user)
+				test_sign_in(@user)
+			end
+
+			it "should redirect already signed-in user" do
+				get :new
+				response.should redirect_to(root_path)
+			end
 		end
 	end
 
