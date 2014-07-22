@@ -40,9 +40,12 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 gem 'gravatar_image_tag'
 
+gem 'will_paginate', '~> 3.0.7'
+
 group :development do
 	gem 'rspec-rails', '~> 2.0'
 	gem 'annotate', ">=2.6.0"
+	gem 'faker'
 end
 
 group :test do

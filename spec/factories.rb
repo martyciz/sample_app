@@ -5,4 +5,7 @@ FactoryGirl.define do
 		password "foobar"
 		password_confirmation "foobar"
 	end
+
+	sequence(:email) { |n| "person-#{n}@example.com" }
 end
+
