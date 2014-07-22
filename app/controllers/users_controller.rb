@@ -50,7 +50,7 @@ class UsersController < ApplicationController
 	def destroy
 		user = User.find(params[:id])
 		if current_user?(user)
-			flash[:error] = "Cannot delete own admin account!"
+			flash[:error] = "You shall not delete your own account"
 		else
 			user.destroy
 			flash[:success] = "User destroyed."

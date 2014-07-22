@@ -328,8 +328,8 @@ describe UsersController do
 
 		describe "as an admin user" do
 			before(:each) do
-				admin = FactoryGirl.create(:user, :email => "admin@example.com", :admin => true)
-				test_sign_in(admin)
+				@admin = FactoryGirl.create(:user, :email => "admin@example.com", :admin => true)
+				test_sign_in(@admin)
 			end
 
 			it "should destroy the user" do
@@ -341,6 +341,12 @@ describe UsersController do
 			it "should redirect to the users page" do
 				delete :destroy, :id => @user
 				response.should redirect_to(users_path)
+			end
+
+			it "should prevent admins from deleting themselves" do
+				delete :destroy, :id => @admin
+				response.should redirect_to(users_path)
+				flash[:error].should =~ /You shall not delete your own account/i
 			end
 		end
 	end
