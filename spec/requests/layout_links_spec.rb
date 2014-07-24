@@ -65,5 +65,25 @@ describe "LayoutLinks" do
       response.should have_selector("a",  :href => user_path(@user),
                                           :content => "Profile")
     end
+
+    describe "microposts" do
+      before(:each) do
+        content = "Lorem ipsum dolor sit amet"
+        visit root_path
+        fill_in :micropost_content, :with => content
+        click_button
+      end
+
+      it "should have delete links for user's microposts" do
+        response.should have_selector("span.delete_link")
+      end
+
+      it "should not have delete links for other person's microposts" do
+        other_user = FactoryGirl.create(:user, :email => "another@example.com")
+        integration_sign_in(other_user)
+        # add @user to feed
+        response.should_not have_selector("span.delete_link")
+      end
+    end
   end
 end

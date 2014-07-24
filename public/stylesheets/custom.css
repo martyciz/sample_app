@@ -194,30 +194,31 @@ h1.micropost {
 	margin-bottom: 0.3em;
 }
 
-table.microposts {
+ol.microposts {
 	margin-top: 1em;
+	list-style: none;
+	padding-left: 0;
 }
 
-table.microposts tr {
+ol.microposts li.micropost {
+	border-top: 1px solid #ccc;
 	height: 70px;
 }
 
-table.microposts tr td.gravatar {
-	border-top: 1px solid #ccc;
+ol.microposts li span.gravatar {
 	vertical-align: top;
 	width: 50px;
+	float: left;
 }
 
-table.microposts tr td.micropost {
-	border-top: 1px solid #ccc;
-	vertical-align: top;
-	padding-top: 10px;
-}
-
-table.microposts tr td.micropost span.timestamp {
+ol.microposts li.micropost span.timestamp {
 	display: block;
 	font-size: 85%;
 	color: #666;
+}
+
+ol.microposts li.micropost span.delete_link {
+	float: right;
 }
 
 div.user_info img {

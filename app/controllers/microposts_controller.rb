@@ -18,6 +18,12 @@ class MicropostsController < ApplicationController
 		redirect_back_or root_path
 	end
 
+	def index
+		user = User.find(params[:user_id])
+		@title = "All posts from #{user.name}"
+		@microposts = user.microposts.paginate(:page => params[:page])
+	end
+
 	private
 		def micropost_params
 			params.require(:micropost).permit(:content)

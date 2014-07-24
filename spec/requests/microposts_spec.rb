@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe "Microposts" do
   before(:each) do
-  	user = FactoryGirl.create(:user)
+  	@user = FactoryGirl.create(:user)
   	visit signin_path
-  	fill_in :email,		:with => user.email
-  	fill_in :password,	:with => user.password
+  	fill_in :email,		:with => @user.email
+  	fill_in :password,	:with => @user.password
   	click_button
   end
 
@@ -32,6 +32,28 @@ describe "Microposts" do
   				response.should have_selector("span.content", :content => content)
   			end.should change(Micropost, :count).by(1)
   		end
+
+      describe "micropost counter pluralization" do
+        it "should show '1 micropost'" do
+          content = "Lorem ipsum dolor sit amet"
+          visit root_path
+          fill_in :micropost_content, :with => content
+          click_button
+          content = @user.microposts.length.to_s + " micropost"
+          response.should have_selector("span.microposts", :content => content)
+        end
+
+        it "should show '2 microposts'" do
+          content = "Lorem ipsum dolor sit amet"
+          visit root_path
+          fill_in :micropost_content, :with => content
+          click_button
+          fill_in :micropost_content, :with => content
+          click_button
+          content = @user.microposts.length.to_s + " microposts"
+          response.should have_selector("span.microposts", :content => content)
+        end
+      end
   	end
   end
 end

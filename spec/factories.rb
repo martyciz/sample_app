@@ -18,5 +18,8 @@ FactoryGirl.define do
 		content "Foo bar"
 		association :user
 	end
+
+	sequence(:micropost) { |n| "Foo bar #{n}" }
+
 end
 
