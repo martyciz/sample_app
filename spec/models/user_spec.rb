@@ -186,6 +186,30 @@ describe User do
               :user => FactoryGirl.create(:user, :email => FactoryGirl.generate(:email)))
       @user.feed.include?(mp3).should be_falsey
     end
+
+    describe "status feed" do
+      it "should have a feed" do
+        @user.should respond_to(:feed)
+      end
+
+      it "should include the user's microposts" do
+        @user.feed.should include(@mp1)
+        @user.feed.should include(@mp2)
+      end
+
+      it "should not include a different user's microposts" do
+        mp3 = FactoryGirl.create(:micropost,
+                :user => FactoryGirl.create(:user, :email => FactoryGirl.generate(:email)))
+        @user.feed.should_not include(mp3)
+      end
+
+      it "should include the microposts of followed users" do
+        followed = FactoryGirl.create(:user, :email => FactoryGirl.generate(:email))
+        mp3 = FactoryGirl.create(:micropost, :user => followed)
+        @user.follow!(followed)
+        @user.feed.should include(mp3)
+      end
+    end
   end
 
   describe "relationships" do
@@ -226,7 +250,7 @@ describe User do
 
     it "should unfollow a user" do
       @user.follow!(@followed)
-      @user.unfollow(@followed)
+      @user.unfollow!(@followed)
       @user.should_not be_following(@followed)
     end
 
@@ -239,7 +263,7 @@ describe User do
     end
 
     it "should include the follower in the followers array" do
-      @user.follow!(:followed)
+      @user.follow!(@followed)
       @followed.followers.should include(@user)
     end
   end
